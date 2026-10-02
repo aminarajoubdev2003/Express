@@ -10,7 +10,7 @@ export function errorMiddleware( error: unknown, req: Request, res: Response, ne
       message: error.message,
     })
     }
-    
+    console.error(error)
     return res.status(500).json({
     success: false,
     statusCode: 500,

@@ -1,5 +1,6 @@
-import type { Request, Response } from 'express';
-import { ProductService } from '../services/product.service.js';
+import type { Request, Response } from 'express'
+import { ProductService } from '../services/product.service.js'
+import { AppError } from '../errors/app.error.js'
 
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
@@ -18,12 +19,18 @@ export class ProductController {
 
   async findOne(req: Request, res: Response) {
   const  id  = Number(req.params.id)
+  if (!Number.isInteger(id) || id <= 0) {
+    throw new AppError(400, 'Invalid product id')
+  }
   const product = await this.productService.findOne( id )
   res.status(200).json(product)
   }
 
   async remove(req: Request, res: Response) {
   const  id  = Number(req.params.id)
+  if (!Number.isInteger(id) || id <= 0) {
+    throw new AppError(400, 'Invalid product id')
+  }
   const product = await this.productService.remove( id )
   res.status(200).json(product)
   }

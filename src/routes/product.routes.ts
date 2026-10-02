@@ -1,12 +1,12 @@
 import express from 'express'
-import {  PrismaService } from '../prisma/prisma.service.js'
+import { prisma } from '../prisma/prisma.service.js'
 import { ProductService } from '../services/product.service.js'
 import { ProductController } from '../controllers/product.controller.js'
 
 const router = express.Router()
 
-const prismaService = new PrismaService()
-const productService = new ProductService(prismaService)
+
+const productService = new ProductService(prisma)
 const productController = new ProductController(productService)
 
 router.post('/', productController.create.bind(productController))
