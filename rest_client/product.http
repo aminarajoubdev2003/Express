@@ -1,0 +1,17 @@
+### Add Product
+POST http://localhost:3080/products
+Content-Type: application/json
+
+{
+  "title": "جهاز أيفون",
+  "price": 800
+}
+
+### Get Products
+GET http://localhost:3080/products
+
+### Get Product
+GET http://localhost:3080/products/1
+
+### Delete Product
+DELETE http://localhost:3080/products/3
