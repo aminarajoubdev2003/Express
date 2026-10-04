@@ -1,17 +1,33 @@
 ### Add Product
 POST http://localhost:3080/products
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImVtYWlsIjoiYWRtaW42NjY1QGdtYWlsLmNvbSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc5MTEzNDg4NiwiZXhwIjoxNzkxMTM4NDg2fQ.WiWQBuAAuSiEtLLMVNBkdv5wBwxc010fgvMmpeXxP4c
 
 {
-  "title": "جهاز أيفون",
-  "price": 800
+  "title": "حاسوب",
+  "price": 7000
 }
 
 ### Get Products
 GET http://localhost:3080/products
+Authorization: Bearer TOKEN
 
 ### Get Product
-GET http://localhost:3080/products/1
+GET http://localhost:3080/products/4
+Authorization: Bearer TOKEN
+
 
 ### Delete Product
 DELETE http://localhost:3080/products/1
+Authorization: Bearer TOKEN
+
+
+### Update Product
+PATCH  http://localhost:3080/products/6
+Content-Type: application/json
+Authorization: Bearer TOKEN
+
+{
+  "title": "هاتف",
+  "price": 7000
+}

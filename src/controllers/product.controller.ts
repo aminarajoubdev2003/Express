@@ -8,7 +8,7 @@ export class ProductController {
   async create(req: Request, res: Response) {
   const { title, price } = req.body
 
-  const product = await this.productService.create({ title, price })
+  const product = await this.productService.create( title, price )
   res.status(201).json(product)
   }
 
@@ -19,18 +19,19 @@ export class ProductController {
 
   async findOne(req: Request, res: Response) {
   const  id  = Number(req.params.id)
-  if (!Number.isInteger(id) || id <= 0) {
-    throw new AppError(400, 'Invalid product id')
-  }
   const product = await this.productService.findOne( id )
+  res.status(200).json(product)
+  }
+
+  async update(req: Request, res: Response) {
+  const  id  = Number(req.params.id)
+  const { title, price } = req.body
+  const product = await this.productService.update( id , title, price )
   res.status(200).json(product)
   }
 
   async remove(req: Request, res: Response) {
   const  id  = Number(req.params.id)
-  if (!Number.isInteger(id) || id <= 0) {
-    throw new AppError(400, 'Invalid product id')
-  }
   const product = await this.productService.remove( id )
   res.status(200).json(product)
   }

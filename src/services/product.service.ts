@@ -5,38 +5,61 @@ import {  PrismaService } from '../prisma/prisma.service.js';
 export class ProductService {
 constructor( private  prisma: PrismaService){}
 
-async create( data: { title: string; price: number } ) {
-    const arabicOnly = /^[\u0600-\u06FF\s]+$/
-
-    if (!arabicOnly.test(data.title)) {
-    throw new AppError(400,'Title must contain Arabic letters only');
-    }
-    if (typeof data.price !== 'number' || !Number.isFinite(data.price)) {
-    throw new AppError(400, 'Price must be a numeric value');
-    }
-    if (data.price <= 0 ) {
-    throw new AppError(400,'Price must be greater than zero');
-    }
+async create( title: string , price: number  ) {
     
     const  existingProduct = await this.prisma.product.findUnique({
       where: {
-      title: data.title,
+      title: title,
     }
     })
     if( existingProduct ){
       throw new AppError(409,'Product already exists');
     }
     try{
-    const product =  this.prisma.product.create({
+    const product =  await this.prisma.product.create({
       data: {
-      title: data.title,
-      price: data.price
+      title: title,
+      price: price
       },
       select:{
       id: true,
       title: true,
       price: true
     }
+    })
+    return  product
+    }catch(error){
+
+      if ( error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
+      throw new AppError(409, 'Product already exists');
+      }
+      throw error
+    }
+  }
+
+  async update(id: number, title: string, price: number ) {
+
+    const existingProduct = await this.prisma.product.findUnique({
+    where: { id: id },
+    select:{
+    id: true,
+    title: true,
+    price: true
+    }
+    })
+    if( !existingProduct ){
+      throw new AppError(404,'Product not found');
+    }
+
+    try{
+    const product =  await this.prisma.product.update({
+      where:{
+        id: id 
+      },
+      data: {
+        title: title,
+        price: price
+      }
     })
     return  product
     }catch(error){
@@ -80,7 +103,7 @@ async create( data: { title: string; price: number } ) {
       where: { id: id }
     })
     if( !product ){
-      throw new AppError(404,'Products not found');
+      throw new AppError(404,'Product not found');
     }
     const deletedProduct = await this.prisma.product.delete({
       where: { id: id }
