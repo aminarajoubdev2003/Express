@@ -1,8 +1,7 @@
 ### Add Product
 POST http://localhost:3080/products
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImVtYWlsIjoiYWRtaW42NjY1QGdtYWlsLmNvbSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc5MTEzNDg4NiwiZXhwIjoxNzkxMTM4NDg2fQ.WiWQBuAAuSiEtLLMVNBkdv5wBwxc010fgvMmpeXxP4c
-
+Authorization: Bearer TOKEN
 {
   "title": "حاسوب",
   "price": 7000
@@ -28,6 +27,6 @@ Content-Type: application/json
 Authorization: Bearer TOKEN
 
 {
-  "title": "هاتف",
+  "title": "",
   "price": 7000
 }

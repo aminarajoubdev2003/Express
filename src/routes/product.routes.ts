@@ -6,6 +6,7 @@ import { authMiddleware } from '../middlewares/auth.middleware.js'
 import { adminMiddleware } from '../middlewares/admin.middleware.js'
 import { productMiddleware } from '../middlewares/product.middleware.js'
 import { productIdMiddleware } from '../middlewares/product-id.middleware.js'
+import { UpdateproductMiddleware } from '../middlewares/update-product.middleware.js'
 
 const router = express.Router()
 
@@ -19,7 +20,7 @@ router.get('/',authMiddleware , productController.findAll.bind(productController
 
 router.get('/:id',authMiddleware , productIdMiddleware, productController.findOne.bind(productController))
 
-router.patch('/:id',authMiddleware , adminMiddleware, productIdMiddleware ,productMiddleware, productController.update.bind(productController));
+router.patch('/:id',authMiddleware , adminMiddleware, productIdMiddleware ,UpdateproductMiddleware, productController.update.bind(productController));
 
 router.delete('/:id',authMiddleware , adminMiddleware,  productIdMiddleware, productController.remove.bind(productController))
 

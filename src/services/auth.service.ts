@@ -3,6 +3,7 @@ import { prisma } from '../prisma/prisma.service.js'
 import { AppError } from '../errors/app.error.js'
 import jwt from 'jsonwebtoken'
 import { env } from '../config/env.js'
+import { Prisma } from '../generated/prisma/client.js'
 
 export class AuthService {
   async register(name: string, email: string, password: string) {
@@ -16,6 +17,7 @@ export class AuthService {
 
     const hashedPassword = await bcrypt.hash(password, 10)
 
+    try{
     const user = await prisma.user.create({
       data: {
         name,
@@ -26,10 +28,15 @@ export class AuthService {
         name: true,
         email: true,
         role: true,
-      },
-    });
-
+      }
+    })
     return user
+    }catch(error){
+      if ( error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
+        throw new AppError(409, 'Email already exists');
+        }
+      throw error
+    }
   }
 
   async login( email: string, password: string) {

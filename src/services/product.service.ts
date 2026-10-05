@@ -37,7 +37,7 @@ async create( title: string , price: number  ) {
     }
   }
 
-  async update(id: number, title: string, price: number ) {
+  async update(id: number, data: {title?: string, price?: number} ) {
 
     const existingProduct = await this.prisma.product.findUnique({
     where: { id: id },
@@ -56,10 +56,7 @@ async create( title: string , price: number  ) {
       where:{
         id: id 
       },
-      data: {
-        title: title,
-        price: price
-      }
+      data,
     })
     return  product
     }catch(error){
